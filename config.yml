@@ -1,0 +1,19 @@
+mqtt:
+  host: 192.168.1.75
+  port: 1883
+
+frigate:
+  host: 192.168.1.75
+  port: 5000
+  cameras:
+    - garage
+    - anothercam
+
+double-take:
+  host: 192.168.1.75
+  port: 3000
+
+gesture:
+  handsize: 9000
+  confidence: 0.75
+  topic: gestures

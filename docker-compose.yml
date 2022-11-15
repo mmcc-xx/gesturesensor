@@ -1,0 +1,8 @@
+version: "3.6"
+services:
+  gesturesensor:
+    container_name: gesturesensor
+    restart: unless-stopped
+    image: gesturesensor:latest
+    volumes:
+      - /appdir/gesturesensor/config.yml:/config/config.yml:ro

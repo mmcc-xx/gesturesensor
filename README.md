@@ -1,6 +1,6 @@
 # gesturesensor
 
-This app works with Frigate and Double-Take to detect if...
+This app works with [Frigate](https://frigate.video/) and [Double-Take](https://github.com/jakowenko/double-take) to detect if...
 1. There's a recognized person standing in front of your camera, and
 2. There is a recognized hand gesture on display
 

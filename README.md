@@ -35,7 +35,7 @@ Take a look at [supportedgestures.jpg](./supportedgestures.jpg) to see the suppo
 To make this work, you'll need...
 - An MQTT broker. Authentication not currently supported
 - Frigate installed and working, publishing events to the MQTT broker on topic "frigate"
-- Double-Take installed and working. This does not need to be doing anythin on MQTT - its REST API is used
+- Double-Take installed and working. This does not need to be doing anything on MQTT - its REST API is used
 - Python - I'm using 3.8, and the Docker file is set to use 3.8
 
 If you aren't using Docker, check the requirements.txt file for the libraries that you need. 

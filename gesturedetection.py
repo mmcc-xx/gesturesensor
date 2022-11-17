@@ -9,12 +9,19 @@ import gesturemodelfunctions
 
 
 def lookforhands():
+    # publish to the availablility topic with retain turned on
+    # HA seems to need this to keep the sensor from going "unavailable"
+    print("Publishing availability")
+    topic = config.config['gesture']['topic'] + "/" + 'availability'
+    payload = "online"
+    ret = config.client.publish(topic, payload, retain=True)
+
     # outputnum = 0
     # publish payload with no name or gestures for each camera
     for camera in config.config['frigate']['cameras']:
         topic = config.config['gesture']['topic'] + "/" + camera
         payload = {'person': '', 'gesture': ''}
-        ret = config.client.publish(topic, json.dumps(payload))
+        ret = config.client.publish(topic, json.dumps(payload), retain=True)
         config.sentpayload[camera] = payload
 
     while(True):
@@ -75,7 +82,7 @@ def lookforhands():
                     if config.sentpayload[cameraname] != payload:
                         print("publishing to " + topic)
                         print("Payload: " + str(payload))
-                        ret = config.client.publish(topic, json.dumps(payload))
+                        ret = config.client.publish(topic, json.dumps(payload), retain=True)
                         config.sentpayload[cameraname] = payload
 
                 if nummatches == 0:
@@ -83,7 +90,7 @@ def lookforhands():
                     if config.sentpayload[cameraname] != payload:
                         print("publishing to " + topic)
                         print("Payload: " + str(payload))
-                        ret = config.client.publish(topic, json.dumps(payload))
+                        ret = config.client.publish(topic, json.dumps(payload), retain=True)
                         config.sentpayload[cameraname] = payload
 
                     print("No people recognized")
@@ -93,7 +100,7 @@ def lookforhands():
                 if config.sentpayload[cameraname] != payload:
                     print("publishing to " + topic)
                     print("Payload: " + str(payload))
-                    ret = config.client.publish(topic, json.dumps(payload))
+                    ret = config.client.publish(topic, json.dumps(payload), retain=True)
                     config.sentpayload[cameraname] = payload
 
         time.sleep(0.5)

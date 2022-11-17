@@ -59,24 +59,26 @@ You can build this app into a docker container with the included Dockerfile and 
 
     docker build -t gesturesensor .
 
-If you are inclined to user docker-compse you can use the included docker-compose.yml file as a starting point. It will 
+If you are inclined to use docker-compose you can use the included docker-compose.yml file as a starting point. It will 
 allow you to point at the location of your config file.
 
 If you use docker run, you'll need to set up a volume to point your config file at /config/config.yml
 
-##Home Assistant Integration
+## Home Assistant Integration
 
 For my garage camera, I have integrated this with Home Assistant using an mqtt sensor. I configured this sensor in 
 configuration.yaml like so:
 
     mqtt:
       sensor:
-        - name: "Garage Gestures"
+        - name: "Garage Gesture"
           unique_id: garage_gestures
           state_topic: "gestures/garage"
+          availability:
+            - topic: "gestures/availability"
           value_template: "{{ value_json.gesture }}"
           json_attributes_topic: "gestures/garage"
-          json_attributes_template: "{{ value_json | tojson }}"
+          json_attributes_template: "{{ value }}" tojson }}"
 
 This gives you a sensor with a value of the current gesture, and attributes of the current person and the current
 gesture. I then set up an automation that reacts to either of the attributes changing, and takes action if the current

@@ -7,6 +7,12 @@ import copy
 import itertools
 import config
 
+max_value = None
+
+
+def normalize_(n):
+    return n / max_value
+
 
 def _calc_bounding_rect(image, landmarks):
     image_width, image_height = image.shape[1], image.shape[0]
@@ -59,10 +65,8 @@ def _pre_process_landmark(landmark_list):
         itertools.chain.from_iterable(temp_landmark_list))
 
     # Normalization
+    global max_value
     max_value = max(list(map(abs, temp_landmark_list)))
-
-    def normalize_(n):
-        return n / max_value
 
     temp_landmark_list = list(map(normalize_, temp_landmark_list))
 
@@ -81,6 +85,13 @@ with open('keypoint_classifier_label.csv',
         row[0] for row in keypoint_classifier_labels
     ]
 
+mp_hands = mp.solutions.hands
+hands = mp_hands.Hands(
+    static_image_mode=True,
+    max_num_hands=1,
+    min_detection_confidence=0.5,
+    min_tracking_confidence=0.5,
+)
 
 
 def gesturemodelmatch(image):
@@ -90,16 +101,7 @@ def gesturemodelmatch(image):
     gesture_id = -1
     image = cv.cvtColor(image, cv.COLOR_BGR2RGB)
 
-
     image.flags.writeable = False
-
-    mp_hands = mp.solutions.hands
-    hands = mp_hands.Hands(
-        static_image_mode=True,
-        max_num_hands=1,
-        min_detection_confidence=0.5,
-        min_tracking_confidence=0.5,
-    )
 
     results = hands.process(image)
 
